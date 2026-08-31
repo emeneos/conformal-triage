@@ -1,0 +1,1 @@
+head ISIC-solo: balanced acc (train) = 0.9157

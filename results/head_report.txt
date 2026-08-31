@@ -1,0 +1,19 @@
+seed=2026
+train: ISIC 2019 completo + PAD training (550 pacientes)
+imagenes de entrenamiento: 26263
+balanced accuracy (train): 0.9017
+
+              precision    recall  f1-score   support
+
+         MEL      0.709     0.792     0.749      4541
+          NV      0.950     0.828     0.885     12996
+         BCC      0.867     0.860     0.864      3655
+          AK      0.703     0.924     0.799      1157
+         BKL      0.698     0.825     0.756      2718
+          DF      0.937     1.000     0.968       239
+        VASC      0.996     1.000     0.998       253
+         SCC      0.696     0.984     0.815       704
+
+    accuracy                          0.838     26263
+   macro avg      0.820     0.902     0.854     26263
+weighted avg      0.854     0.838     0.841     26263

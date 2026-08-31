@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this code or the recorded-seed artefacts, please cite the paper below."
+title: "Conformal Triage of Skin Lesions in Two Latin American Cohorts"
+authors:
+  - family-names: "Valdez Kao"
+    given-names: "Ebaneo"
+  - family-names: "Pieciak"
+    given-names: "Tomasz"
+version: "1.0"
+date-released: "2026-08-31"
+repository-code: "https://github.com/emeneos/conformal-triage"
+license: MIT

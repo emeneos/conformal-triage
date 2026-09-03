@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# 02_extract_embeddings.py -- Fase 2: pasar PanDerm congelado UNA vez por cada
-# fuente y cachear los embeddings. Despues de esto no se vuelve a tocar la GPU
-# para el pipeline principal.
+# 02_extract_embeddings.py -- Phase 2: run frozen PanDerm ONCE over each source and
+# cache the embeddings. After this the GPU is never touched again by the main pipeline.
 #
-# Correr una vez por fuente (ajusta ROOT a tu carpeta de 01_download.sh):
+# Run once per source (set ROOT to the folder used by 01_download.sh):
 #   ROOT=$HOME/conformal-triage-data
 #   python 02_extract_embeddings.py --panderm $ROOT/panderm/PanDerm \
 #       --ckpt $ROOT/panderm/checkpoints/panderm_ll_data6_checkpoint-499.pth \
@@ -13,37 +12,37 @@
 #   python 02_extract_embeddings.py --panderm ... --ckpt ... \
 #       --images $ROOT/pad/images --out $ROOT/emb/pad.npz
 #
-# Salida: npz con ids (stems de archivo) y features (N, d) float32, mas un
-# sidecar .json con checkpoint, conteo y dimension, para trazabilidad.
+# Output: an npz with ids (file stems) and features (N, d) float32, plus a .json sidecar
+# with checkpoint, count and dimension, for traceability.
 
 import argparse, json, sys, time
 from pathlib import Path
 import numpy as np
 
 p = argparse.ArgumentParser()
-p.add_argument("--panderm", required=True, help="ruta al repo clonado PanDerm/")
+p.add_argument("--panderm", required=True, help="path to the cloned PanDerm/ repository")
 p.add_argument("--ckpt", required=True, help="checkpoint panderm_ll_data6_checkpoint-499.pth")
-p.add_argument("--images", required=True, help="carpeta con las imagenes (recursivo)")
-p.add_argument("--out", required=True, help="npz de salida")
+p.add_argument("--images", required=True, help="folder with the images (recursive)")
+p.add_argument("--out", required=True, help="output npz")
 p.add_argument("--model-name", default="PanDerm_Large_LP")
 p.add_argument("--batch-size", type=int, default=32)
 p.add_argument("--num-workers", type=int, default=4)
 p.add_argument("--device", default=None, help="cuda|cpu (default: auto)")
-p.add_argument("--amp", action="store_true", help="autocast fp16 en GPU (mas rapido, mismo resultado a efectos practicos)")
+p.add_argument("--amp", action="store_true", help="fp16 autocast on GPU (faster, same result for practical purposes)")
 args = p.parse_args()
 
-# la API oficial vive en PanDerm/classification (from models import get_encoder)
+# the official API lives in PanDerm/classification (from models import get_encoder)
 sys.path.insert(0, str(Path(args.panderm) / "classification"))
 
 import torch
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-from models import get_encoder  # noqa: E402  (repo de PanDerm)
+from models import get_encoder  # noqa: E402  (PanDerm repository)
 
 device = args.device or ("cuda" if torch.cuda.is_available() else "cpu")
 
-class CkptArgs:  # get_encoder espera un objeto con este atributo
+class CkptArgs:  # get_encoder expects an object with this attribute
     pretrained_checkpoint = args.ckpt
 
 model, eval_transform = get_encoder(CkptArgs(), model_name=args.model_name)
@@ -52,8 +51,8 @@ model.eval().to(device)
 EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
 paths = sorted(q for q in Path(args.images).rglob("*") if q.suffix.lower() in EXTS)
 if not paths:
-    sys.exit(f"No encontre imagenes en {args.images}")
-print(f"{len(paths)} imagenes | device={device} | modelo={args.model_name}")
+    sys.exit(f"No images found in {args.images}")
+print(f"{len(paths)} images | device={device} | model={args.model_name}")
 
 class ImgDS(Dataset):
     def __len__(self):
@@ -62,8 +61,8 @@ class ImgDS(Dataset):
         q = paths[i]
         try:
             img = Image.open(q).convert("RGB")
-        except Exception as e:  # imagen corrupta: no aborta la corrida entera
-            print(f"  ! error leyendo {q.name}: {e}; uso imagen en blanco", file=sys.stderr)
+        except Exception as e:  # corrupt image: do not abort the whole run
+            print(f"  ! error reading {q.name}: {e}; using a blank image", file=sys.stderr)
             img = Image.new("RGB", (224, 224))
         return eval_transform(img), q.stem
 

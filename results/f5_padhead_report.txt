@@ -1,0 +1,5 @@
+seed=2026
+PAD-only head: LogisticRegression(lbfgs, L2, C=1.0, max_iter=1000, class_weight=balanced) on StandardScaler
+training images: 932 (PAD training portion, 550 patients)
+classes present: ['MEL', 'NV', 'BCC', 'AK', 'BKL', 'SCC']
+balanced accuracy (train): 0.9989

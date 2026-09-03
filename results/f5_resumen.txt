@@ -1,0 +1,37 @@
+== Curve in alpha (pooled Mondrian): benign release lesion / patient, certified-group miss, Pr(any enforced stratum degenerate)
+hiba: a=0.02: rel 0.0%/0.0%, miss 0.00%, deg 100.0%; a=0.03: rel 0.0%/0.0%, miss 0.00%, deg 100.0%; a=0.04: rel 0.0%/0.0%, miss 0.00%, deg 64.0%; a=0.05: rel 0.0%/0.0%, miss 0.01%, deg 3.0%; a=0.06: rel 0.1%/0.0%, miss 0.04%, deg 0.0%; a=0.08: rel 1.2%/0.6%, miss 0.31%, deg 0.0%; a=0.10: rel 3.9%/2.3%, miss 0.66%, deg 0.0%; a=0.12: rel 7.8%/4.4%, miss 0.97%, deg 0.0%; a=0.15: rel 14.1%/8.4%, miss 1.69%, deg 0.0%; a=0.20: rel 23.6%/13.4%, miss 2.32%, deg 0.0%; a=0.25: rel 28.9%/19.7%, miss 3.12%, deg 0.0%; a=0.30: rel 32.7%/25.0%, miss 3.99%, deg 0.0%
+pad: a=0.02: rel 0.0%/0.0%, miss 0.00%, deg 100.0%; a=0.03: rel 0.0%/0.0%, miss 0.00%, deg 100.0%; a=0.04: rel 0.1%/0.1%, miss 0.00%, deg 74.0%; a=0.05: rel 0.9%/1.0%, miss 0.00%, deg 15.0%; a=0.06: rel 1.8%/2.1%, miss 0.00%, deg 2.0%; a=0.08: rel 3.3%/3.8%, miss 0.00%, deg 0.0%; a=0.10: rel 3.9%/4.4%, miss 0.02%, deg 0.0%; a=0.12: rel 4.4%/4.9%, miss 0.03%, deg 0.0%; a=0.15: rel 7.2%/6.6%, miss 0.04%, deg 0.0%; a=0.20: rel 15.9%/13.7%, miss 0.13%, deg 0.0%; a=0.25: rel 19.6%/17.4%, miss 0.36%, deg 0.0%; a=0.30: rel 17.7%/15.8%, miss 0.69%, deg 0.0%
+== Smallest alpha with benign release >= 5% (lesion-level) under Mondrian:
+  hiba: 0.12
+  pad: 0.15
+== Marginal / softmax / temp: % of draws with some certified group over budget
+  hiba marginal: a=0.05: 0%, a=0.10: 0%, a=0.15: 0%
+  hiba softmax: a=0.05: 65%, a=0.10: 67%, a=0.15: 76%
+  hiba temp: a=0.05: 70%, a=0.10: 69%, a=0.15: 77%
+  pad marginal: a=0.05: 0%, a=0.10: 0%, a=0.15: 0%
+  pad softmax: a=0.05: 61%, a=0.10: 4%, a=0.15: 0%
+  pad temp: a=0.05: 61%, a=0.10: 4%, a=0.15: 0%
+== Benign coverage by phototype under the pooled threshold (a=0.05 / 0.15)
+  hiba a=0.05: g1: 0.969 (n=11), g2: 0.971 (n=113), g3: 0.983 (n=57), g4: 1.000 (n=9)
+  hiba a=0.15: g1: 0.922 (n=11), g2: 0.891 (n=113), g3: 0.949 (n=57), g4: 0.801 (n=9)
+  pad a=0.05: g1: 0.900 (n=2), g2: 0.940 (n=8), g3: 0.984 (n=6), g4: 1.000 (n=3), g6: 1.000 (n=1)
+  pad a=0.15: g1: 0.652 (n=2), g2: 0.864 (n=8), g3: 0.937 (n=6), g4: 1.000 (n=3), g6: 1.000 (n=1)
+== HIBA by modality (a=0.05 / 0.15): coverage, |C|, release
+  a=0.05: all: cov 0.968 |C| 5.94 rel 0.0%, both: cov 0.932 |C| 6.10 rel 0.0%, clin: cov 0.911 |C| 5.68 rel 0.0%, derm: cov 0.984 |C| 5.91 rel 0.0%
+  a=0.15: all: cov 0.892 |C| 3.39 rel 14.1%, both: cov 0.852 |C| 3.65 rel 1.7%, clin: cov 0.761 |C| 3.03 rel 0.1%, derm: cov 0.915 |C| 3.33 rel 16.8%
+== Mixed lesions: averaged vs dermoscopy-only (a=0.05): coverage / |C|
+  averaged: 0.932 / 6.10, derm_only_for_mixed: 0.975 / 5.61
+== Type I/III intervals (a=0.05): mean miss [mean CP] [mean bootstrap], n lesions / patients
+  hiba M1: 0.000 [0.000,0.224] [0.000,0.000] n=16/10
+  hiba M3: 0.000 [0.000,0.264] [0.000,0.000] n=13/10
+  pad M1: 0.000 [0.000,0.133] [0.000,0.000] n=27/16
+  pad M3: 0.000 [0.000,0.051] [0.000,0.000] n=72/48
+== PAD-only head vs primary on PAD: |C| and benign release (a=0.05 / 0.15), and metrics
+  a=0.05 primary: |C| benign 4.15, release 0.9%, deg 10%
+  a=0.05 pad_only: |C| benign 4.81, release 2.5%, deg 10%
+  a=0.15 primary: |C| benign 2.95, release 7.2%, deg 0%
+  a=0.15 pad_only: |C| benign 2.45, release 27.7%, deg 0%
+             top1  bal_acc  macro_f1  auc_ovr
+  head                                       
+  pad_only  0.639    0.573     0.405    0.876
+  primary   0.575    0.525     0.364    0.841
